@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel='stylesheet' type='text/css' href='../../vendors/initializr/css/normalize.min.css'>
+    <link rel='stylesheet' type='text/css' href='../../vendors/initializr/css/main.css'>
+    <link rel='stylesheet' type='text/css' href='../../vendors/ionicons-2.0.0/css/ionicons.min.css'>
+    <script type="x-handlebars-template" id="listing_tmpl">
+        {{#items}}
+        <li>
+            <article class="repo-item">
+                <div class="upper-section">
+                    <div class="stats">
+                        <span>{{updated_at}}</span>
+                    </div>
+                    <span class="title"><i class="icon ion-social-github"> </i>{{name}} | {{open_issues}}</span>
+                    <span class="repo-lang">[ <i class="icon ion-social-javascript"></i> ]</span>
+                </div>
+                <section class="lower-section">
+                    <span class="description">{{description}}</span>
+                <span class="actions-bar">
+                    <span><i class="icon ion-ios-folder-outline" data-action="open-repo"></i></span>
+                    <span><i class="icon {{star}}" data-action="star"></i></span>
+                    <span><i class="icon ion-fork-repo" data-action="fork"></i></span>
+                    <span><i class="icon ion-ios-cloud-download-outline" data-action="download"></i></span>
+                    <span><i class="icon ion-ios-trash-outline" data-action="delete"></i></span>
+                </span>
+                </section>
+            </article>
+        </li>
+        {{/items}}
+    </script>
+</head>
+<body>
+<div id="outerdiv">
+    <div id="innerdiv">
+        <header>
+            <input id="inputfield" class="textinput" type="text">
+            <span id="messagespan">You have notifications</span>
+            <label id="snolabel"><input id="snocheck" type="checkbox"> New only</label>
+            <menu type="toolbar" role="toolbar">
+                <li>
+                    <button type="button" id="button-add-repo"><i class="icon ion-android-add-circle"></i></button>
+                    <button type="button" id="button-notifications">
+                        <span class="badge-icon">
+                            <i class="icon ion-ios-email"></i>
+                            <span class="badge">0</span>
+                        </span>
+                    </button>
+                    <button type="button" id="button-open-github"><i class="icon ion-social-github"></i></button>
+                    <button type="button" id="button-settings"><i class="icon ion-ios-settings-strong"></i></button>
+                </li>
+            </menu>
+        </header>
+        <section id="section-repos">
+            <ul id="repo-listings"></ul>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" charset="utf-8" src="../../vendors/handlebars-v2.0.0.js"></script>
+<script type="text/javascript" charset="utf-8" src="../common/bg/agent.common.js"></script>
+<script type="text/javascript" charset="utf-8" src="browser.action.js"></script>
+</body>
+</html>

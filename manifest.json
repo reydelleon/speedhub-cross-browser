@@ -1,0 +1,40 @@
+{
+  "name": "Speedhub",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "This extension was created with the awesome extensionizr.com",
+  "homepage_url": "http://extensionizr.com",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "scripts": [
+      "src/chrome/options_custom/lib/store.js",
+      "bower_components/moment/moment.js",
+      "vendors/underscore-min.js",
+      "vendors/github-js/github.js",
+      "src/common/bg/agent.common.js",
+      "src/chrome/chrome.storage.js",
+      "src/common/bg/core.common.js"
+    ],
+    "persistent": false
+  },
+  "options_page": "src/chrome/options_custom/index.html",
+  "browser_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "Speedhub",
+    "default_popup": "src/browser_action/browser.action.html"
+  },
+  "permissions": [
+    "chrome://favicon/",
+    "bookmarks",
+    "downloads",
+    "notifications",
+    "storage",
+    "http://api.github.com/"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
