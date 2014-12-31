@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel='stylesheet' type='text/css' href='../../vendors/initializr/css/normalize.min.css'>
-    <link rel='stylesheet' type='text/css' href='../../vendors/initializr/css/main.css'>
+    <link rel='stylesheet' type='text/css' href='../../css/initializr/normalize.min.css'>
+    <link rel='stylesheet' type='text/css' href='../../css/initializr/main.css'>
     <link rel='stylesheet' type='text/css' href='../../vendors/ionicons-2.0.0/css/ionicons.min.css'>
     <script type="x-handlebars-template" id="listing_tmpl">
         {{#items}}
-        <li>
+        <li id="{{id}}">
             <article class="repo-item">
                 <div class="upper-section">
                     <div class="stats">
-                        <span>{{updated_at}}</span>
+                        <span>{{age}}</span>
                     </div>
-                    <span class="title"><i class="icon ion-social-github"> </i>{{name}} | {{open_issues}}</span>
-                    <span class="repo-lang">[ <i class="icon ion-social-javascript"></i> ]</span>
+                    <span class="title"><i class="icon ion-social-github"> </i>{{name}}</span>
+                    <span class="repo-lang">[ <i class="{{languageIcon language}}"></i> ]</span>
                 </div>
                 <section class="lower-section">
                     <span class="description">{{description}}</span>
@@ -56,7 +56,7 @@
         </section>
     </div>
 </div>
-<script type="text/javascript" charset="utf-8" src="../../vendors/handlebars-v2.0.0.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/lib/handlebars.js"></script>
 <script type="text/javascript" charset="utf-8" src="../common/bg/agent.common.js"></script>
 <script type="text/javascript" charset="utf-8" src="browser.action.js"></script>
 </body>
