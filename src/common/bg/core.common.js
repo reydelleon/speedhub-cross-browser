@@ -70,6 +70,31 @@ SPEEDHUB.storage = (function () {
     }
 }());
 
+SPEEDHUB.namespace('SPEEDHUB.tabs');
+
+SPEEDHUB.tabs = function () {
+    switch (BROWSER_AGENT.agent.name) {
+        case ("safari"):
+            console.log("Safari Tabs");
+            // Reach the global page using safari.extension.globalPage.contentWindow
+            //return safariStorageAPI;
+            break;
+        case ("chrome"):
+            console.log("Chrome Tabs");
+            // Reach the global page using chrome.extension.getBackgroundPage()
+            return chromeTabsAPI;
+            break;
+        case ("firefox-require"):
+            console.log("Firefox Tabs");
+        case ("firefox-addon"):
+            console.log("Firefox Tabs");
+            //return firefoxStorageAPI;
+            break;
+        default:
+            throw Error('Could not detect underlying tabs API!');
+    }
+};
+
 SPEEDHUB.namespace('SPEEDHUB.github');
 
 /**
@@ -87,43 +112,33 @@ SPEEDHUB.github = (function () {
      * @type {Window.Github}
      */
     githubClient = new Github({
-        token: 'ddd',
+        token: 'fdd',
         oauth: "oauth"
     });
 
     /**
-     * Returns the repository object with the specified id.
-     * If refresh is set to <tt>true</tt> the repository will be retrieved from Github directly and updated in the local cache. Otherwise, the repository will be taken from the local cache.
+     * Passes the repository associated with the id to the callback function.
      * @param {number} id The id of the repository that is being retrieved.
-     * @param {boolean} refresh Whether or not the object should be retrieved from Github. If missing, the repository will be taken from the local cache.
-     * @returns {Object} - The repository with the specified id.
+     * @param {function} callback Callback to execute with the repository retrieved as a parameter.
      */
-    getRepo = function (id, refresh) {
-        var repo = reposCache.filter(function (repo) {
-            if (repo.id === parseInt(id, 10)) {
-                return repo;
-            }
-        })[0];
+    getRepo = function (id, callback) {
+        getRepoCache(function (items) {
+            var repo = items.reposCache.filter(function (repo) {
+                if (repo.id === parseInt(id, 10)) {
+                    return repo;
+                }
+            })[0];
 
-        if (refresh) {
-            repo = githubClient.getRepo(repo.owner.login, repo.name);
-        }
-
-        return repo;
+            callback(repo);
+        });
     };
 
     /**
-     * Returns an array with the repositories in cache.
-     * @returns {Array | undefined} - An array of repository objects or <tt>undefined</tt> if no repositories are recovered.
+     * Executes the callback passing an array of items as a parameter.
+     * @param {function} callback The callback to execute.
      */
-    getRepoCache = function () {
-        return storageHandle.get('reposCache', function (items) {
-            if (items.reposCache) {
-                return items.reposCache;
-            } else {
-                return undefined;
-            }
-        });
+    getRepoCache = function (callback) {
+        storageHandle.get('reposCache', callback);
     };
 
     /**
@@ -171,7 +186,7 @@ SPEEDHUB.util.moment = (function () {
     "use strict";
 
     return moment;
-});
+}());
 
 SPEEDHUB.namespace('SPEEDHUB.notifications');
 
@@ -181,41 +196,85 @@ SPEEDHUB.namespace('SPEEDHUB.notifications');
 SPEEDHUB.notifications = (function () {
     "use strict";
 
-    var notifications = Object.create(Object);
+    var postOSNotification;
 
     //Define the public API
     /**
      * Shows a notification to the user using the underlying Notifications API.
      * @type {Function}
      */
-    notifications.prototype.postOSNotification = (function (title, options) {
+    postOSNotification = function (title, options) {
         //TODO: Display notification with the underlying system.
-    });
+    };
 
-    return notifications;
+    return {
+        postOSNotification: postOSNotification
+    };
 }());
 
 //Initialize the extension
 (function () {
-    var initChrome;
+    var initChrome,
+        initSafari,
+        preprocessItems;
+
+    /**
+     * Returns an array of preprocessed items to be used in the view.
+     * @param {Array} items The unprocessed items.
+     */
+    preprocessItems = function (items) {
+        var formatedItems = [],
+            moment = SPEEDHUB.util.moment;
+
+        formatedItems = items.map(function (item) {
+            var newItem,
+                lastCommit = moment(item.updated_at),
+                age = lastCommit.fromNow();
+
+            newItem = {
+                id: item.id,
+                name: item.name,
+                age: age,
+                user: item.owner.login,
+                description: item.description,
+                openIssues: item.open_issues,
+                language: item.language
+            };
+
+            return newItem;
+        });
+
+        return formatedItems;
+    };
 
     initChrome = function () {
         //Listen to messages from the popup or other parts of the extension
         chrome.runtime.onMessage.addListener(
             function (request, sender, sendResponse) {
-                if (request.cmd === "update_cache") {
-                    updateView();
-                    sendResponse({200: "OK"});
+                switch (request.cmd) {
+                    case "update_cache":
+                        updateView();
+                        sendResponse({ 200: "OK" });
+                        break;
+                    case "open_tab":
+                        SPEEDHUB.github.getRepo(request.id, function (repo) {
+                            chrome.tabs.create({ url: repo.html_url }); //TODO: Fix this to use wrapper instead.
+                        });
                 }
             });
 
         function updateView() {
             SPEEDHUB.github.updateCache(function (err, items) {
+                var formatedItems;
+
                 if (err) {
                     console.log("I'm having problems to update the cache");
                 }
 
-                chrome.runtime.sendMessage({ cmd: "update_view", items: items});
+                //Reformat items for the view
+                formatedItems = preprocessItems(items);
+
+                chrome.runtime.sendMessage({ cmd: "update_view", items: formatedItems });
             });
         }
     };

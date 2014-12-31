@@ -11,15 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [
-      "src/chrome/options_custom/lib/store.js",
-      "bower_components/moment/moment.js",
-      "vendors/underscore-min.js",
-      "vendors/github-js/github.js",
-      "src/common/bg/agent.common.js",
-      "src/chrome/chrome.storage.js",
-      "src/common/bg/core.common.js"
-    ],
+    "page": "background.html",
     "persistent": false
   },
   "options_page": "src/chrome/options_custom/index.html",
@@ -34,7 +26,8 @@
     "downloads",
     "notifications",
     "storage",
-    "http://api.github.com/"
+    "http://api.github.com/",
+    "tabs"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
