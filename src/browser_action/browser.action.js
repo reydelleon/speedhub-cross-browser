@@ -6,9 +6,10 @@
  */
 
 window.onload = function () {
-    var reposList,
-        goChrome,
-        handleListingClick;
+    "use strict";
+
+    var goChrome,
+        handleListItemClick;
 
     /**
      * Handles the onClick events in a listing (i.e a <tt>li</tt> element).
@@ -30,48 +31,25 @@ window.onload = function () {
         }
     };
 
-    goChrome = function () {
-        chrome.runtime.sendMessage({ cmd: "update_cache" }, function (response) {
-            console.log('Update cache response: ' + response[200]);
-        });
+    chrome.runtime.getBackgroundPage(function (backgrondPageObject) {
+        var SPEEDHUB = backgrondPageObject.SPEEDHUB,
+            context = {},
+            templateHTML,
+            templateFunction;
 
-        chrome.runtime.onMessage.addListener(
-            function (request, sender, sendResponse) {
-                if (request.cmd === "update_view") {
-                    var context = {};
+        SPEEDHUB.getLocalRepos(function (items) {
+            context.items = items;
 
-                    context.items = request.items;
+            templateHTML = document.querySelector('#listing_tmpl').innerHTML;
+            templateFunction = Handlebars.compile(templateHTML);
+            document.querySelector('#repo-listings').innerHTML = templateFunction(context);
 
-                    var templateHTML = document.querySelector('#listing_tmpl').innerHTML;
-                    var templateFunction = Handlebars.compile(templateHTML);
-                    document.querySelector('#repo-listings').innerHTML = templateFunction(context);
-
-                    //Set the onclick event
-                    [].forEach.call(document.querySelectorAll('#repo-listings li'), function (item) {
-                        item.onclick = handleListItemClick;
-                    });
-                }
+            //            Set the onclick event
+            [].forEach.call(document.querySelectorAll('#repo-listings li'), function (item) {
+                item.onclick = handleListItemClick;
             });
-    };
-
-    switch (BROWSER_AGENT.agent.name) {
-        case ("safari"):
-            console.log("Safari Storage");
-            // Reach the global page using safari.extension.globalPage.contentWindow
-            //return safariStorageAPI;
-            break;
-        case "chrome":
-            goChrome();
-            break;
-        case "firefox-require":
-            console.log("Firefox Storage");
-        case "firefox-addon":
-            console.log("Firefox Storage");
-            //return firefoxStorageAPI;
-            break;
-        default:
-            throw Error('Could not detect underlying storage API!');
-    }
+        });
+    });
 
     Handlebars.registerHelper("languageIcon", function (languaje) {
         "use strict";

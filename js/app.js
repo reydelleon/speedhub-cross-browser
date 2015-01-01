@@ -8,10 +8,10 @@
 requirejs.config({
     //By default load any module IDs from js/ext
     baseUrl: 'js/ext',
-    //except, if the module ID starts with "app, etc.",
+    //except, if the module ID starts with 'app, etc.',
     //load it from the js/app directory. paths
     //config is relative to the baseUrl, and
-    //never includes a ".js" extension since
+    //never includes a '.js' extension since
     //the paths config could be for a directory.
     paths: {
         lib: '../lib',
@@ -39,10 +39,51 @@ requirejs.config({
     }
 });
 
+// Define the Global Object that will hold the extension functionality
+var SPEEDHUB = SPEEDHUB || {};
+
 // Start the main app logic.
-requirejs(['chrome.storage', 'chrome.settings', 'chrome.tabs', 'lib/handlebars', 'bower/moment/moment', 'lib/github', 'lib/underscore'],
-    function (chromeStorage, chromeSettings, chromeTabs, handlebars, moment, github, _) {
-        //jQuery, canvas and the app/sub module are all
-        //loaded and can be used here now.
-        console.log(chromeSettings);
+requirejs(['chrome.storage', 'chrome.settings', 'chrome.tabs'],
+    function (chromeStorage, chromeSettings, chromeTabs) {
+        'use strict';
+
+        var getLocalRepos;
+
+        /**
+         * Executes the callback with an array of repositories as the parameter.
+         * @param {function} callback
+         */
+        getLocalRepos = function (callback) {
+            chromeStorage.get('localRepos', function (items) {
+                callback(items.localRepos);
+            });
+        };
+
+        // Create dummy data to populate the local storage for testing purposes.
+        var dummyData = [
+            {
+                name: 'repo1',
+                description: 'description1',
+                url: 'http://github.com',
+                username: 'reydel',
+                language: 'CSS',
+                age: 'theAge'
+            },
+            {
+                name: 'repo2',
+                description: 'description2',
+                username: 'reydel',
+                url: 'http://github.com',
+                language: 'JavaScript',
+                age: 'theAge'
+            }
+        ];
+
+        chromeStorage.set({ localRepos: dummyData }, function () {
+            console.log('dummyData saved');
+        });
+
+        // Bind all functions to an object in the Global Space to make them accessible from the outside scripts
+        // referencing the BackgroundPage object
+        window.SPEEDHUB.getLocalRepos = getLocalRepos;
     });
