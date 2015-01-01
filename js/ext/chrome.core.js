@@ -6,7 +6,24 @@
  */
 
 if (typeof define === 'function' && define.amd) {
-    define([], function () {
-        return {};
-    });
+    define([],
+        function () {
+            "use strict";
+
+            var onInstall,
+                onBackgroundPageLoad;
+
+            onInstall = function () {
+                console.log('Implement initialization logic');
+            };
+            
+            onBackgroundPageLoad = function () {
+                console.log('Implement onBackgroundPageLoad logic');
+            };
+
+            return {
+                onInstall: onInstall,
+                onBackgroundPageLoad: onBackgroundPageLoad
+            };
+        });
 }

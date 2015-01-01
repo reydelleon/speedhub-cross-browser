@@ -32,22 +32,22 @@ if (typeof define === 'function' && define.amd) {
         };
 
         /**
-         * Gets one or more items from storage.
-         * @param {string | string[] | Object} items A single key to get, list of keys to get, or a dictionary specifying default
+         * Gets one or more keys from storage.
+         * @param {string | string[] | Object} keys A single key to get, list of keys to get, or a dictionary specifying default
          * values. An empty list or object will return an empty result object. Pass in <tt>null</tt>
          * to get the entire contents of storage.
-         * @param {function} callback Callback with storage items, or on failure (in which case runtime.lastError will be set).
+         * @param {function} callback Callback with storage keys, or on failure (in which case runtime.lastError will be set).
          *
          * The callback parameter should be a function that looks like this:
          * <tt>function(object items) {...};</tt>
          */
-        get = function (items, callback) {
-            localStorage.get(items, callback);
+        get = function (keys, callback) {
+            localStorage.get(keys, callback);
         };
 
         return {
             set: set,
             get: get
-        }
+        };
     });
 }
