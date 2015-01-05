@@ -11,7 +11,9 @@
   },
   "default_locale": "en",
   "background": {
-    "page": "background.html",
+    "scripts": [
+      "js/apps.build.js"
+    ],
     "persistent": false
   },
   "options_page": "src/chrome/options_custom/index.html",

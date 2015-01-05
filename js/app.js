@@ -43,8 +43,8 @@ requirejs.config({
 var SPEEDHUB = SPEEDHUB || {};
 
 // Start the main app logic.
-requirejs(['chrome.storage', 'chrome.settings', 'chrome.tabs'],
-    function (chromeStorage, chromeSettings, chromeTabs) {
+requirejs(['chrome.storage', 'chrome.core'],
+    function (chromeStorage, chromeCore) {
         'use strict';
 
         var getLocalRepos;
@@ -59,31 +59,34 @@ requirejs(['chrome.storage', 'chrome.settings', 'chrome.tabs'],
             });
         };
 
+        // Take care of the extension lifecycle.
+        //chrome.runtime.onInstalled.addListener(function (details) {
         // Create dummy data to populate the local storage for testing purposes.
         var dummyData = [
             {
                 name: 'repo1',
                 description: 'description1',
-                url: 'http://github.com',
                 username: 'reydel',
-                language: 'CSS',
                 age: 'theAge'
             },
             {
                 name: 'repo2',
                 description: 'description2',
                 username: 'reydel',
-                url: 'http://github.com',
-                language: 'JavaScript',
                 age: 'theAge'
             }
         ];
 
+        //switch (details.reason) {
+        //    case 'install':
         chromeStorage.set({ localRepos: dummyData }, function () {
             console.log('dummyData saved');
         });
+        //break;
+        //}
+        //});
 
         // Bind all functions to an object in the Global Space to make them accessible from the outside scripts
         // referencing the BackgroundPage object
-        window.SPEEDHUB.getLocalRepos = getLocalRepos;
+        SPEEDHUB.getLocalRepos = getLocalRepos;
     });
