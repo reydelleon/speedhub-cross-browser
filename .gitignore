@@ -2,3 +2,7 @@
 .idea
 vendors
 bower_components
+node_modules
+
+npm-debug.log
+js/apps.build.js
