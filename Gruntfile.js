@@ -3,15 +3,18 @@ module.exports = function (grunt) {
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: "js/ext",
-                    mainConfigFile: "js/app.js",
-                    name: "../app",
+                    baseUrl: 'js/ext',
+                    mainConfigFile: 'js/app.js',
+                    name: '../app',
                     include: [
-                        "../lib/almond"
+                        '../lib/almond'
                     ],
                     skipModuleInsertion: true,
-                    out: "js/apps.build.js",
-                    wrap: false
+                    out: 'js/app.build.js',
+                    wrap: {
+                        start: '(function(){',
+                        end: 'require(["../app"], null, null, true);})();'
+                    }
                 }
             }
         }
