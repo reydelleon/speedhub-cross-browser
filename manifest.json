@@ -12,7 +12,7 @@
   "default_locale": "en",
   "background": {
     "scripts": [
-      "js/apps.build.js"
+      "js/app.build.js"
     ],
     "persistent": false
   },
