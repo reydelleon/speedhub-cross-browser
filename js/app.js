@@ -64,16 +64,16 @@ define(['chrome.storage', 'chrome.core'],
             // Create dummy data to populate the local storage for testing purposes.
             var dummyData = [
                 {
-                    name: 'repo1',
-                    description: 'description1',
-                    username: 'reydel',
+                    name: 'speedhub-cross-browser',
+                    description: 'Provides easy access to basic Github operations and notifications in the browser toolbar',
+                    username: 'reydelleon',
                     language: 'CSS',
                     age: 'theAge'
                 },
                 {
-                    name: 'repo2',
-                    description: 'description2',
-                    username: 'reydel',
+                    name: 'advanced-magento-tax-report',
+                    description: 'Adds a tax report aggregated by cities/states (using a grid) in Magento',
+                    username: 'reydelleon',
                     language: 'JavaScript',
                     age: 'theAge'
                 }
