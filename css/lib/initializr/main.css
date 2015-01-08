@@ -65,13 +65,18 @@ textarea {
 html {
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     color: #444444;
+    min-width: 600px;
     /*background-color: #ffffff;*/
+}
+
+body {
+    font-family: inherit;
+    font-size: inherit;
 }
 
 header {
     position: relative;
     padding-bottom: 1em;
-    /*font-family: "Lucida Grande", "Segoe UI", sans-serif;*/
 }
 
 /*Toolbars*/
@@ -79,6 +84,10 @@ menu[type="toolbar"] {
     list-style-type: none;
     padding-left: 0;
     margin: 0;
+}
+
+menu[type="toolbar"] li {
+    float: left;
 }
 
 header menu[type="toolbar"] {
@@ -91,6 +100,10 @@ menu[type="toolbar"] button {
     background-color: transparent;
     font-size: 1.3em;
     color: #444444;
+}
+
+header #inputfield {
+    float: left;
 }
 
 /*Icons*/
@@ -119,6 +132,10 @@ menu[type="toolbar"] button {
     border: solid #a0a0a0 thin;
     padding: 3px 5px 5px 5px; /* Offsets the border increase */
     background-color: rgba(255, 255, 255, .5);
+}
+
+.repo-item menu[type="toolbar"] {
+    float: right;
 }
 
 .repo-item .title {
@@ -152,7 +169,7 @@ menu[type="toolbar"] button {
     overflow-y: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 480px;
+    max-width: 480px;
 }
 
 /*Atoms*/

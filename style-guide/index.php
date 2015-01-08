@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="css/sg-style.css">
 
   <!-- Replace below stylesheet with your own stylesheet -->
-  <link rel="stylesheet" href="../vendors/initializr/css/normalize.min.css">
-  <link rel="stylesheet" href="../vendors/initializr/css/main.css">
+  <link rel="stylesheet" href="../css/lib/initializr/normalize.min.css">
+  <link rel="stylesheet" href="../css/lib/initializr/main.css">
   <link rel='stylesheet' href='../vendors/ionicons-2.0.0/css/ionicons.min.css'>
 
 </head>

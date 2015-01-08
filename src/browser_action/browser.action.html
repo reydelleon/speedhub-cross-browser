@@ -9,21 +9,19 @@
         <li id="{{id}}">
             <article class="repo-item">
                 <div class="upper-section">
-                    <div class="stats">
-                        <span>{{age}}</span>
-                    </div>
-                    <span class="title"><i class="icon ion-social-github"> </i>{{name}}</span>
+                    <span class="stats">{{age}}</span>
+                    <span class="title"><i class="icon ion-social-github"> </i>{{name}} | {{username}}</span>
                     <span class="repo-lang">[ <i class="{{languageIcon language}}"></i> ]</span>
                 </div>
                 <section class="lower-section">
                     <span class="description">{{description}}</span>
-                <span class="actions-bar">
-                    <span><i class="icon ion-ios-folder-outline" data-action="open-repo"></i></span>
-                    <span><i class="icon {{star}}" data-action="star"></i></span>
-                    <span><i class="icon ion-fork-repo" data-action="fork"></i></span>
-                    <span><i class="icon ion-ios-cloud-download-outline" data-action="download"></i></span>
-                    <span><i class="icon ion-ios-trash-outline" data-action="delete"></i></span>
-                </span>
+                    <span class="actions-bar">
+                        <span><i class="icon ion-ios-folder-outline" data-action="open-repo"></i></span>
+                        <span><i class="icon {{star}}" data-action="star"></i></span>
+                        <span><i class="icon ion-fork-repo" data-action="fork"></i></span>
+                        <span><i class="icon ion-ios-cloud-download-outline" data-action="download"></i></span>
+                        <span><i class="icon ion-ios-trash-outline" data-action="delete"></i></span>
+                    </span>
                 </section>
             </article>
         </li>
@@ -33,21 +31,26 @@
 <body>
 <div id="outerdiv">
     <div id="innerdiv">
-        <header>
+        <header class="clearfix">
             <input id="inputfield" class="textinput" type="text">
-            <span id="messagespan">You have notifications</span>
             <label id="snolabel"><input id="snocheck" type="checkbox"> New only</label>
             <menu type="toolbar" role="toolbar">
                 <li>
-                    <button type="button" id="button-add-repo"><i class="icon ion-android-add-circle"></i></button>
-                    <button type="button" id="button-notifications">
+                    <button type="button"><i class="icon ion-android-add-circle"></i></button>
+                </li>
+                <li>
+                    <button type="button">
                         <span class="badge-icon">
                             <i class="icon ion-ios-email"></i>
                             <span class="badge">0</span>
                         </span>
                     </button>
-                    <button type="button" id="button-open-github"><i class="icon ion-social-github"></i></button>
-                    <button type="button" id="button-settings"><i class="icon ion-ios-settings-strong"></i></button>
+                </li>
+                <li>
+                    <button type="button"><i class="icon ion-social-github"></i></button>
+                </li>
+                <li>
+                    <button type="button"><i class="icon ion-ios-settings-strong"></i></button>
                 </li>
             </menu>
         </header>

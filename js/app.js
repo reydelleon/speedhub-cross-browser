@@ -67,12 +67,14 @@ define(['chrome.storage', 'chrome.core'],
                     name: 'repo1',
                     description: 'description1',
                     username: 'reydel',
+                    language: 'CSS',
                     age: 'theAge'
                 },
                 {
                     name: 'repo2',
                     description: 'description2',
                     username: 'reydel',
+                    language: 'JavaScript',
                     age: 'theAge'
                 }
             ];
