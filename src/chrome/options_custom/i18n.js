@@ -31,8 +31,8 @@ this.i18n = {
         "en": "Reload repositories every time I open the extension",
         "de": "Passwort:"
     },
-    "x-characters": {
-        "en": "6 - 12 characters",
+    "key-placeholder": {
+        "en": "Introduce your personal key here",
         "de": "6 - 12 Zeichen"
     },
     "x-characters-pw": {

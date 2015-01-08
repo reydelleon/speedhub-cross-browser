@@ -9,7 +9,7 @@ module.exports = function (grunt) {
                     include: [
                         '../lib/almond'
                     ],
-                    skipModuleInsertion: true,
+                    skipModuleInsertion: false,
                     out: 'js/app.build.js',
                     wrap: {
                         start: '(function(){',

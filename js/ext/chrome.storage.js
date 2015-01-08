@@ -29,19 +29,19 @@ if (typeof define === 'function' && define.amd) {
              * <tt>function() {...};</tt>
              *
              * @param {string} storageType Defines what type of storage will be used to store the data. Accepted values are:
-             * <tt>'web'</tt> (HTML Web Storage specification); <tt>'chrome.local'</tt> (chrome.storage.local) and
-             * <tt>'chrome.sync'</tt> (chrome.storage.sync). Standard HTML Storage specification ('web') is assumed if no value
+             * <tt>'local.storage'</tt> (HTML Web Storage specification); <tt>'chrome.local'</tt> (chrome.storage.local) and
+             * <tt>'chrome.sync'</tt> (chrome.storage.sync). Standard HTML Storage specification ('local.storage') is assumed if no value
              * is provided.
              */
             set = function (items, callback, storageType) {
-                storageType = storageType || 'web';
+                storageType = storageType || 'local.storage';
 
                 switch (storageType) {
                     case 'chrome.local':
                         localStorage.set(items, callback);
                         break;
                     default:
-                        throw new Error('The storage type provided is not valid. Accepted values are: "web", "chrome.local" and "chrome.sync"');
+                        throw new Error('The storage type provided is not valid. Accepted values are: "local.storage", "chrome.local" and "chrome.sync"');
                 }
 
             };
@@ -57,22 +57,21 @@ if (typeof define === 'function' && define.amd) {
              * <tt>function(object items) {...};</tt>
              *
              * @param {string} storageType Defines from which type of storage will the data be retrieved. Accepted values are:
-             * <tt>'web'</tt> (HTML Web Storage specification); <tt>'chrome.local'</tt> (chrome.storage.local) and
-             * <tt>'chrome.sync'</tt> (chrome.storage.sync). Standard HTML Storage specification ('web') is assumed if no value
+             * <tt>'local.storage'</tt> (HTML Web Storage specification); <tt>'chrome.local'</tt> (chrome.storage.local) and
+             * <tt>'chrome.sync'</tt> (chrome.storage.sync). Standard HTML Storage specification ('local.storage') is assumed if no value
              * is provided.
              */
             get = function (keys, callback, storageType) {
-                storageType = storageType || 'web';
+                storageType = storageType || 'local.storage';
 
                 switch (storageType) {
                     case 'chrome.local':
                         localStorage.get(keys, callback);
                         break;
                     default:
-                        throw new Error('The storage type provided is not valid. Accepted values are: "web", "chrome.local" and "chrome.sync"');
+                        throw new Error('The storage type provided is not valid. Accepted values are: "local.storage", "chrome.local" and "chrome.sync"');
                 }
-            }
-            ;
+            };
 
             return {
                 set: set,

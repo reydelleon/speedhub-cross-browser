@@ -1,7 +1,7 @@
 // SAMPLE
 this.manifest = {
     "name": "Speedhub",
-    "icon": "../../icons/icon19.png",
+    "icon": "../../../icons/icon19.png",
     "settings": [
         {
             "tab": i18n.get("information"),
@@ -9,7 +9,7 @@ this.manifest = {
             "name": "personalKey",
             "type": "text",
             "label": i18n.get("personal-key"),
-            "text": i18n.get("x-characters")
+            "text": i18n.get("key-placeholder")
         },
         {
             "tab": i18n.get("information"),
@@ -17,6 +17,6 @@ this.manifest = {
             "name": "frequentRefresh",
             "type": "checkbox",
             "label": i18n.get("freq-refresh-text")
-        },
+        }
     ]
 };

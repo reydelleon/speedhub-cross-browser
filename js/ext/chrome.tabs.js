@@ -21,7 +21,7 @@ if (typeof define === 'function' && define.amd) {
          * @see https://developer.chrome.com/extensions/tabs for more details on the properties object.
          */
         create = function (properties, callback) {
-            chrome.tabs.create(properties, callback); //TODO: This is not working at all
+            chrome.tabs.create(properties, callback);
         };
 
         return {
