@@ -47,7 +47,9 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
         // Define the Global Object that will hold the extension functionality
         SPEEDHUB = {};
 
-        var getLocalRepos;
+        var getLocalRepos,
+            getRepo,
+            githubClient;
 
         /**
          * Executes the callback with an array of repositories as the parameter.
@@ -61,7 +63,27 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
                 'chrome.local');
         };
 
-        // Take care of the extension lifecycle.
+        /**
+         * Passes the repository associated with the id to the callback function.
+         * @param {number} id The id of the repository that is being retrieved.
+         * @param {function} callback Callback to execute with the repository retrieved as a parameter.
+         */
+        getRepo = function (id, callback) {
+            chromeStorage.get(
+                'localRepos',
+                function (items) {
+                    var repo = items.localRepos.filter(function (repo) {
+                        if (repo.id === parseInt(id, 10)) {
+                            return repo;
+                        }
+                    })[0];
+
+                    callback(repo);
+                },
+                'chrome.local');
+        };
+
+        // Event listeners
         chrome.runtime.onInstalled.addListener(
             function (details) {
                 // Create dummy data to populate the local storage for testing purposes.
@@ -122,7 +144,7 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
                 switch (e.key) {
                     case 'store.settings.personalKey':
                         console.log(JSON.parse(e.newValue));
-                        var githubClient = new Github({
+                        githubClient = new Github({
                             token: JSON.parse(e.newValue),
                             oauth: "oauth"
                         });
@@ -140,6 +162,24 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
                                 );
                             });
                         break;
+                }
+            });
+
+        // Listen to messages from the popup or other parts of the extension
+        chrome.runtime.onMessage.addListener(
+            function (request, sender, sendResponse) {
+                switch (request.cmd) {
+                    case "update_cache":
+                        //updateView();
+                        sendResponse({ 200: "OK" });
+                        break;
+                    case "open_tab":
+                        getRepo(request.id, function (repo) {
+                            chromeTabs.create({ url: repo.html_url });
+                        });
+                        break;
+                    default:
+                        throw new Error('Unknown command: ' + request.cmd);
                 }
             });
 

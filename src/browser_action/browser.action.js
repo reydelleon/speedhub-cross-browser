@@ -8,8 +8,7 @@
 window.onload = function () {
     "use strict";
 
-    var goChrome,
-        handleListItemClick;
+    var handleListItemClick;
 
     /**
      * Handles the onClick events in a listing (i.e a <tt>li</tt> element).
@@ -17,39 +16,39 @@ window.onload = function () {
      * @param {MouseEvent} event The mouse event that triggered the function invocation.
      */
     handleListItemClick = function (event) {
-        var listingLI,
+        var repoLI,
             action;
 
         event.stopPropagation();
         event.preventDefault();
 
-        listingLI = event.currentTarget;
+        repoLI = event.currentTarget;
         action = event.target.getAttribute('data-action');
 
         if (action) {
-            chrome.runtime.sendMessage({ cmd: "open_tab", id: listingLI.id });
+            chrome.runtime.sendMessage({ cmd: "open_tab", id: repoLI.id });
         }
     };
 
-    chrome.runtime.getBackgroundPage(function (backgrondPageObject) {
-        var SPEEDHUB = backgrondPageObject.SPEEDHUB,
-            context = {},
-            templateHTML,
-            templateFunction;
+    chrome.runtime.getBackgroundPage(
+        function (backgrondPageObject) {
+            var SPEEDHUB = backgrondPageObject.SPEEDHUB,
+                context = {},
+                templateHTML,
+                templateFunction;
 
-        SPEEDHUB.getLocalRepos(function (items) {
-            context.items = items;
+            SPEEDHUB.getLocalRepos(function (items) {
+                context.items = items;
 
-            templateHTML = document.querySelector('#listing_tmpl').innerHTML;
-            templateFunction = Handlebars.compile(templateHTML);
-            document.querySelector('#repo-listings').innerHTML = templateFunction(context);
+                templateHTML = document.querySelector('#listing_tmpl').innerHTML;
+                templateFunction = Handlebars.compile(templateHTML);
+                document.querySelector('#repo-listings').innerHTML = templateFunction(context);
 
-            //            Set the onclick event
-            [].forEach.call(document.querySelectorAll('#repo-listings li'), function (item) {
-                item.onclick = handleListItemClick;
+                [].forEach.call(document.querySelectorAll('#repo-listings li'), function (item) {
+                    item.onclick = handleListItemClick;
+                });
             });
         });
-    });
 
     Handlebars.registerHelper("languageIcon", function (languaje) {
         "use strict";
