@@ -26,7 +26,7 @@ window.onload = function () {
         action = event.target.getAttribute('data-action');
 
         if (action) {
-            chrome.runtime.sendMessage({ cmd: "open_tab", id: repoLI.id });
+            chrome.runtime.sendMessage({ cmd: action, id: repoLI.id });
         }
     };
 

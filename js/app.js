@@ -106,12 +106,6 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
 
                 switch (details.reason) {
                     case 'install':
-                        chromeStorage.set({ localRepos: dummyData },
-                            function () {
-                                console.log('dummyData saved');
-                            },
-                            'chrome.local');
-
                         // Show the options page to the user
                         chromeTabs.create({
                                 active: true,
@@ -143,7 +137,6 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
             function (e) {
                 switch (e.key) {
                     case 'store.settings.personalKey':
-                        console.log(JSON.parse(e.newValue));
                         githubClient = new Github({
                             token: JSON.parse(e.newValue),
                             oauth: "oauth"
@@ -161,6 +154,21 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
                                     'chrome.local'
                                 );
                             });
+
+                        githubClient.getUser().notifications(
+                            function (err, notifications) {
+                                if (err) {
+                                    throw new Error("Couldn't retrieve notifications");
+                                }
+
+                                if (notifications && notifications.length !== 0) {
+                                    chrome.browserAction.setBadgeText({ text: notifications.length.toString(10) });
+                                }
+                            }
+                        );
+
+                        break;
+                    default:
                         break;
                 }
             });
@@ -173,9 +181,15 @@ define(['chrome.storage', 'chrome.tabs', 'lib/github'],
                         //updateView();
                         sendResponse({ 200: "OK" });
                         break;
-                    case "open_tab":
+                    case "open-repo":
                         getRepo(request.id, function (repo) {
                             chromeTabs.create({ url: repo.html_url });
+                        });
+                        break;
+                    case 'download':
+                        getRepo(request.id, function (repo) {
+                            var url = repo.html_url + '/archive/master.zip';
+                            chromeTabs.create({ url: url });
                         });
                         break;
                     default:
